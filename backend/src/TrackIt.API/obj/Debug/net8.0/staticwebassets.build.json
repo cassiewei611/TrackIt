@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ln1kQxdAuNqFIw5tUCETF3CNxQFeYjdqYeijelUyl0s=",
+  "Source": "TrackIt.API",
+  "BasePath": "_content/TrackIt.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

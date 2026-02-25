@@ -1,0 +1,11 @@
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\bin\Release\net8.0\TrackIt.Domain.deps.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\bin\Release\net8.0\TrackIt.Domain.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\bin\Release\net8.0\TrackIt.Domain.pdb
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Release\net8.0\TrackIt.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Release\net8.0\TrackIt.Domain.AssemblyInfoInputs.cache
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Release\net8.0\TrackIt.Domain.AssemblyInfo.cs
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Release\net8.0\TrackIt.Domain.csproj.CoreCompileInputs.cache
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Release\net8.0\TrackIt.Domain.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Release\net8.0\refint\TrackIt.Domain.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Release\net8.0\TrackIt.Domain.pdb
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Release\net8.0\ref\TrackIt.Domain.dll

@@ -1,0 +1,243 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Application\\TrackIt.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Application\\TrackIt.Application.csproj",
+        "projectName": "TrackIt.Application",
+        "projectPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Application\\TrackIt.Application.csproj",
+        "packagesPath": "C:\\Users\\cassie wei\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\cassie wei\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Domain\\TrackIt.Domain.csproj": {
+                "projectPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Domain\\TrackIt.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[11.11.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.4.1, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.418/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Domain\\TrackIt.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Domain\\TrackIt.Domain.csproj",
+        "projectName": "TrackIt.Domain",
+        "projectPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Domain\\TrackIt.Domain.csproj",
+        "packagesPath": "C:\\Users\\cassie wei\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\cassie wei\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.418/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj",
+        "projectName": "TrackIt.Infrastructure",
+        "projectPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\cassie wei\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\cassie wei\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Application\\TrackIt.Application.csproj": {
+                "projectPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Application\\TrackIt.Application.csproj"
+              },
+              "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Domain\\TrackIt.Domain.csproj": {
+                "projectPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Domain\\TrackIt.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.11, )"
+            },
+            "Microsoft.Extensions.Caching.Memory": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Http": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.3.2, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.3.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.418/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

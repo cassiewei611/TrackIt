@@ -1,0 +1,15 @@
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\bin\Debug\net8.0\TrackIt.Application.deps.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\bin\Debug\net8.0\TrackIt.Application.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\bin\Debug\net8.0\TrackIt.Application.pdb
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\bin\Debug\net8.0\TrackIt.Domain.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\bin\Debug\net8.0\TrackIt.Domain.pdb
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.csproj.AssemblyReference.cache
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.AssemblyInfoInputs.cache
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.AssemblyInfo.cs
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.csproj.CoreCompileInputs.cache
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt..4E500463.Up2Date
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\refint\TrackIt.Application.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.pdb
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\ref\TrackIt.Application.dll
