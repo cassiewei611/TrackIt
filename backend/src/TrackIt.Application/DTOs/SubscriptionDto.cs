@@ -12,7 +12,12 @@ public record SubscriptionDto(
     bool IsActive,
     string? Notes,
     decimal MonthlyEquivalent,
-    DateTime CreatedAt
+    DateTime CreatedAt,
+    int SplitCount,
+    string? Group,
+    decimal EffectiveMonthlyAmount,
+    decimal? ConvertedMonthlyEquivalent = null,
+    string? TargetCurrency = null
 );
 
 public record DashboardSummaryDto(
@@ -36,4 +41,3 @@ public record UserProfileDto(Guid Id, string Email, string FullName, string Pref
 
 public record TeamDto(Guid Id, string Name, string? Description, Guid OwnerId, int MemberCount, DateTime CreatedAt);
 
-public record TeamMemberDto(Guid UserId, string Email, string FullName, string Role, DateTime JoinedAt);

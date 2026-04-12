@@ -14,5 +14,6 @@ public record CreateSubscriptionCommand(
     SubscriptionCategory Category,
     string? LogoUrl = null,
     string? Notes = null,
-    Guid? TeamId = null
+    int SplitCount = 1,
+    string? Group = null
 ) : IRequest<SubscriptionDto>;

@@ -14,7 +14,6 @@ public class User : BaseEntity
     public decimal? MonthlyBudgetLimit { get; private set; }
 
     public ICollection<Subscription> Subscriptions { get; private set; } = [];
-    public ICollection<TeamMember> TeamMemberships { get; private set; } = [];
 
     private User() { }
 

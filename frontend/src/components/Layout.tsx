@@ -20,7 +20,6 @@ export function Layout({ children, currency, onCurrencyChange }: LayoutProps) {
     { id: 'dashboard', label: 'Dashboard', path: '/' },
     { id: 'subscriptions', label: 'Subscriptions', path: '/subscriptions' },
     { id: 'budget', label: 'Budget', path: '/budget' },
-    { id: 'teams', label: 'Teams', path: '/teams' },
   ];
 
   const activeTab = tabs.find(t => t.path === location.pathname)?.id ?? 'dashboard';
@@ -162,11 +161,6 @@ export function Layout({ children, currency, onCurrencyChange }: LayoutProps) {
                       icon="📋"
                       label="My Subscriptions"
                       onClick={() => { setShowMenu(false); navigate('/subscriptions'); }}
-                    />
-                    <MenuItem
-                      icon="👥"
-                      label="Teams"
-                      onClick={() => { setShowMenu(false); navigate('/teams'); }}
                     />
                   </div>
 

@@ -6,7 +6,6 @@ using TrackIt.Application.Commands.CreateSubscription;
 using TrackIt.Application.Commands.DeleteSubscription;
 using TrackIt.Application.Commands.UpdateSubscription;
 using TrackIt.Application.DTOs;
-using TrackIt.Application.Queries.GetSubscriptionById;
 using TrackIt.Application.Queries.GetSubscriptions;
 using TrackIt.Domain.Enums;
 
@@ -26,19 +25,11 @@ public class SubscriptionsController(ISender mediator) : ControllerBase
         [FromQuery] bool includeInactive = false,
         [FromQuery] SubscriptionCategory? category = null,
         [FromQuery] string? search = null,
+        [FromQuery] string? currency = null,
         CancellationToken ct = default)
     {
         var result = await mediator.Send(
-            new GetSubscriptionsQuery(CurrentUserId, includeInactive, category, search), ct);
-        return Ok(result);
-    }
-
-    [HttpGet("{id:guid}")]
-    [ProducesResponseType<SubscriptionDto>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
-    {
-        var result = await mediator.Send(new GetSubscriptionByIdQuery(id, CurrentUserId), ct);
+            new GetSubscriptionsQuery(CurrentUserId, includeInactive, category, search, currency), ct);
         return Ok(result);
     }
 
@@ -51,7 +42,7 @@ public class SubscriptionsController(ISender mediator) : ControllerBase
     {
         var commandWithUser = command with { UserId = CurrentUserId };
         var result = await mediator.Send(commandWithUser, ct);
-        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        return CreatedAtAction(nameof(GetAll), null, result);
     }
 
     [HttpPut("{id:guid}")]

@@ -29,9 +29,10 @@ public class DashboardController(ISender mediator) : ControllerBase
     [ProducesResponseType<IEnumerable<SpendTimelineDto>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetTimeline(
         [FromQuery] int months = 6,
+        [FromQuery] string currency = "USD",
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new GetSpendTimelineQuery(CurrentUserId, months), ct);
+        var result = await mediator.Send(new GetSpendTimelineQuery(CurrentUserId, months, currency), ct);
         return Ok(result);
     }
 }

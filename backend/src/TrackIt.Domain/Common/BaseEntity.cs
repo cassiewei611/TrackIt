@@ -12,6 +12,7 @@ public abstract class BaseEntity
     protected void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
     public void ClearDomainEvents() => _domainEvents.Clear();
     protected void SetUpdated() => UpdatedAt = DateTime.UtcNow;
+    public void SetCreatedAt(DateTime date) => CreatedAt = date;
 }
 
 public interface IDomainEvent { }

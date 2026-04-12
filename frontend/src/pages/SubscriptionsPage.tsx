@@ -1,24 +1,42 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { subscriptionsApi } from '../api/subscriptions';
+import { dashboardApi } from '../api/dashboard';
 import { AddSubscriptionModal } from '../components/AddSubscriptionModal';
 import { CATEGORY_COLORS, daysUntil } from '../lib/utils';
 
-export function SubscriptionsPage() {
+interface SubscriptionsPageProps {
+  currency: string;
+}
+
+function fmt(n: number, currency: string) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 2 }).format(n);
+}
+
+export function SubscriptionsPage({ currency }: SubscriptionsPageProps) {
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
   const { data: subscriptions = [], isLoading } = useQuery({
-    queryKey: ['subscriptions'],
-    queryFn: () => subscriptionsApi.getAll({ includeInactive: true }),
+    queryKey: ['subscriptions', currency],
+    queryFn: () => subscriptionsApi.getAll({ includeInactive: true, currency }),
+  });
+
+  // Use dashboard summary for accurate converted monthly total
+  const { data: summary } = useQuery({
+    queryKey: ['dashboard', 'summary', currency],
+    queryFn: () => dashboardApi.getSummary(currency),
   });
 
   const deleteMutation = useMutation({
     mutationFn: subscriptionsApi.delete,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
-      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      setConfirmDeleteId(null);
+      queryClient.invalidateQueries({ queryKey: ['subscriptions', currency] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard', 'summary', currency] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard', 'timeline'] });
     },
   });
 
@@ -27,7 +45,7 @@ export function SubscriptionsPage() {
   );
 
   const activeCount = subscriptions.filter(s => s.isActive).length;
-  const monthlyTotal = subscriptions.filter(s => s.isActive).reduce((acc, s) => acc + s.monthlyEquivalent, 0);
+  const monthlyTotal = summary?.monthlyTotal ?? 0;
 
   return (
     <div>
@@ -35,7 +53,7 @@ export function SubscriptionsPage() {
         <div>
           <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 24, fontWeight: 700 }}>Subscriptions</div>
           <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12, marginTop: 4 }}>
-            {activeCount} active · ${monthlyTotal.toFixed(2)}/mo
+            {activeCount} active · {fmt(monthlyTotal, currency)}/mo
           </div>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
@@ -91,8 +109,22 @@ export function SubscriptionsPage() {
                 </div>
 
                 <div style={{ fontSize: 15, fontWeight: 600 }}>
-                  ${s.amount}
-                  <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 400 }}> {s.currencyCode}</span>
+                  {fmt(s.amount, s.currencyCode)}
+                  {s.splitCount > 1 ? (
+                    <div style={{ fontSize: 10, color: '#a78bfa', fontWeight: 400 }}>
+                      ÷{s.splitCount} = {s.convertedMonthlyEquivalent != null && s.targetCurrency
+                        ? fmt(s.convertedMonthlyEquivalent, s.targetCurrency)
+                        : fmt(s.effectiveMonthlyAmount, s.currencyCode)}/mo
+                    </div>
+                  ) : s.convertedMonthlyEquivalent != null && s.targetCurrency ? (
+                    <div style={{ fontSize: 10, color: 'rgba(167,139,250,0.7)', fontWeight: 400 }}>
+                      ≈ {fmt(s.convertedMonthlyEquivalent, s.targetCurrency)}/mo
+                    </div>
+                  ) : s.billingCycle !== 'Monthly' ? (
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>
+                      {fmt(s.monthlyEquivalent, s.currencyCode)}/mo
+                    </div>
+                  ) : null}
                 </div>
 
                 <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>{s.billingCycle}</div>
@@ -111,12 +143,30 @@ export function SubscriptionsPage() {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6 }}>
-                  <button
-                    onClick={() => deleteMutation.mutate(s.id)}
-                    style={{ fontSize: 11, padding: '4px 10px', background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 6, color: '#f87171', cursor: 'pointer', fontFamily: "'IBM Plex Mono', monospace" }}
-                  >
-                    Delete
-                  </button>
+                  {confirmDeleteId === s.id ? (
+                    <>
+                      <button
+                        onClick={() => deleteMutation.mutate(s.id)}
+                        disabled={deleteMutation.isPending}
+                        style={{ fontSize: 11, padding: '4px 10px', background: 'rgba(248,113,113,0.15)', border: '1px solid rgba(248,113,113,0.4)', borderRadius: 6, color: '#f87171', cursor: 'pointer', fontFamily: "'IBM Plex Mono', monospace" }}
+                      >
+                        Confirm
+                      </button>
+                      <button
+                        onClick={() => setConfirmDeleteId(null)}
+                        style={{ fontSize: 11, padding: '4px 10px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontFamily: "'IBM Plex Mono', monospace" }}
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => setConfirmDeleteId(s.id)}
+                      style={{ fontSize: 11, padding: '4px 10px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontFamily: "'IBM Plex Mono', monospace" }}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             );

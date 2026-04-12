@@ -20,8 +20,7 @@ public class DeleteSubscriptionCommandHandler(
         if (subscription.UserId != request.UserId)
             throw new ForbiddenException("You don't have permission to delete this subscription.");
 
-        subscription.Deactivate();
-        await repo.UpdateAsync(subscription, ct);
+        await repo.DeleteAsync(request.Id, ct);
         await uow.SaveChangesAsync(ct);
     }
 }

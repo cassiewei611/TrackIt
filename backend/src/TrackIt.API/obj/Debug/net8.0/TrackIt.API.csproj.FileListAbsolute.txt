@@ -155,11 +155,6 @@ C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\Tra
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\TrackIt.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets\msbuild.TrackIt.API.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets\msbuild.build.TrackIt.API.props
-C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.TrackIt.API.props
-C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.TrackIt.API.props
-C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\scopedcss\bundle\TrackIt.API.styles.css
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\TrackIt..ADA10F58.Up2Date
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\TrackIt.API.dll
@@ -167,3 +162,12 @@ C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\ref
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\TrackIt.API.pdb
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\TrackIt.API.genruntimeconfig.cache
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\ref\TrackIt.API.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\TrackIt.API.sourcelink.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\bin\Debug\net8.0\TrackIt.API.staticwebassets.endpoints.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.API\obj\Debug\net8.0\swae.build.ex.cache

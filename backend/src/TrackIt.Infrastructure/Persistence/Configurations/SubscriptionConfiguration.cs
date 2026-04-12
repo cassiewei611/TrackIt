@@ -40,18 +40,13 @@ public class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
 
         builder.Property(s => s.Notes).HasMaxLength(500);
         builder.Property(s => s.LogoUrl).HasMaxLength(500);
-        builder.Property(s => s.WebsiteUrl).HasMaxLength(500);
+        builder.Property(s => s.SplitCount).HasDefaultValue(1);
+        builder.Property(s => s.Group).HasMaxLength(100);
 
         builder.HasOne(s => s.User)
             .WithMany(u => u.Subscriptions)
             .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(s => s.Team)
-            .WithMany(t => t.Subscriptions)
-            .HasForeignKey(s => s.TeamId)
-            .OnDelete(DeleteBehavior.SetNull)
-            .IsRequired(false);
 
         builder.HasIndex(s => s.UserId);
         builder.HasIndex(s => s.NextBillingDate);

@@ -14,6 +14,8 @@ const schema = z.object({
   nextBillingDate: z.string().min(1, 'Billing date required'),
   category: z.enum(['Streaming', 'Music', 'Gaming', 'SaaS', 'Cloud', 'Security', 'Other']),
   notes: z.string().optional(),
+  splitCount: z.coerce.number().int().min(1).max(50).default(1),
+  group: z.string().max(100).optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -58,6 +60,7 @@ export function AddSubscriptionModal({ onClose }: AddSubscriptionModalProps) {
       billingCycle: 'Monthly',
       category: 'SaaS',
       nextBillingDate: today,
+      splitCount: 1,
     },
   });
 
@@ -131,6 +134,18 @@ export function AddSubscriptionModal({ onClose }: AddSubscriptionModalProps) {
             <div>
               <label style={labelStyle}>Next Billing Date</label>
               <input style={inputStyle} type="date" {...register('nextBillingDate')} />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div>
+                <label style={labelStyle}>Split with (people)</label>
+                <input style={inputStyle} type="number" min="1" max="50" {...register('splitCount')} />
+                {errors.splitCount && <p style={{ color: '#f87171', fontSize: 11, marginTop: 4 }}>{errors.splitCount.message}</p>}
+              </div>
+              <div>
+                <label style={labelStyle}>Group (optional)</label>
+                <input style={inputStyle} placeholder="e.g. Roommates" {...register('group')} />
+              </div>
             </div>
 
             <div>

@@ -8,7 +8,6 @@ import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { SubscriptionsPage } from './pages/SubscriptionsPage';
 import { BudgetPage } from './pages/BudgetPage';
-import { TeamsPage } from './pages/TeamsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,9 +33,8 @@ function AppRoutes() {
           <Layout currency={currency} onCurrencyChange={setCurrency}>
             <Routes>
               <Route path="/" element={<DashboardPage currency={currency} />} />
-              <Route path="/subscriptions" element={<SubscriptionsPage />} />
+              <Route path="/subscriptions" element={<SubscriptionsPage currency={currency} />} />
               <Route path="/budget" element={<BudgetPage currency={currency} />} />
-              <Route path="/teams" element={<TeamsPage />} />
             </Routes>
           </Layout>
         </ProtectedRoute>

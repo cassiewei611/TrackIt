@@ -9,3 +9,4 @@ C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Debug\net8.0\
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Debug\net8.0\refint\TrackIt.Domain.dll
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Debug\net8.0\TrackIt.Domain.pdb
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Debug\net8.0\ref\TrackIt.Domain.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Domain\obj\Debug\net8.0\TrackIt.Domain.sourcelink.json

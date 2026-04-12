@@ -1,26 +1,20 @@
 using System.Net.Http.Json;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using TrackIt.Application.Interfaces;
 
 namespace TrackIt.Infrastructure.Services;
 
-public class ExchangeRateSettings
-{
-    public string AppId { get; set; } = "";
-    public string BaseUrl { get; set; } = "https://openexchangerates.org/api/";
-}
-
+// Uses Frankfurter API (api.frankfurter.app) — free, no API key required, ECB data.
+// Internally always fetches with USD as base, then computes cross-rates.
 public class ExchangeRateService(
     HttpClient httpClient,
     IMemoryCache cache,
-    IOptions<ExchangeRateSettings> settings,
     ILogger<ExchangeRateService> logger
 ) : IExchangeRateService
 {
-    private const string CacheKeyPrefix = "exchange_rate_";
-    private readonly TimeSpan CacheDuration = TimeSpan.FromHours(1);
+    private const string UsdRatesCacheKey = "fx_usd_base";
+    private readonly TimeSpan CacheDuration = TimeSpan.FromHours(4);
 
     public async Task<decimal> GetRateAsync(string from, string to, CancellationToken ct = default)
     {
@@ -29,39 +23,54 @@ public class ExchangeRateService(
         return rates.GetValueOrDefault(from, 1m);
     }
 
+    // Returns a dictionary where each value is:
+    //   "how much 1 unit of that source currency is worth in targetCurrency"
+    // e.g. GetRatesAsync("CNY", ["USD", "EUR"]) → {"USD": 7.27, "EUR": 7.9}
     public async Task<Dictionary<string, decimal>> GetRatesAsync(
-        string baseCurrency,
-        IEnumerable<string> targetCurrencies,
+        string targetCurrency,
+        IEnumerable<string> sourceCurrencies,
         CancellationToken ct = default)
     {
-        var cacheKey = $"{CacheKeyPrefix}{baseCurrency}";
+        var usdRates = await GetUsdBaseRatesAsync(ct);
 
-        if (cache.TryGetValue(cacheKey, out Dictionary<string, decimal>? cachedRates) && cachedRates is not null)
+        // usdRates["CNY"] = 7.27 means 1 USD = 7.27 CNY
+        var targetPerUsd = usdRates.GetValueOrDefault(targetCurrency, 1m);
+
+        var result = new Dictionary<string, decimal>();
+        foreach (var src in sourceCurrencies)
         {
-            logger.LogDebug("Exchange rates served from cache for base {Base}", baseCurrency);
-            return cachedRates;
+            var srcPerUsd = usdRates.GetValueOrDefault(src, 1m);
+            // 1 src = (targetPerUsd / srcPerUsd) target
+            result[src] = srcPerUsd == 0 ? 1m : targetPerUsd / srcPerUsd;
         }
+
+        return result;
+    }
+
+    private async Task<Dictionary<string, decimal>> GetUsdBaseRatesAsync(CancellationToken ct)
+    {
+        if (cache.TryGetValue(UsdRatesCacheKey, out Dictionary<string, decimal>? cached) && cached is not null)
+            return cached;
 
         try
         {
-            var url = $"latest.json?app_id={settings.Value.AppId}&base={baseCurrency}";
-            var response = await httpClient.GetFromJsonAsync<ExchangeRateResponse>(url, ct)
-                ?? throw new InvalidOperationException("Empty response from exchange rate API.");
+            var response = await httpClient.GetFromJsonAsync<FrankfurterResponse>("latest?from=USD", ct)
+                ?? throw new InvalidOperationException("Empty response from Frankfurter API.");
 
-            var result = response.Rates;
-            result[baseCurrency] = 1m;
+            var rates = response.Rates;
+            rates["USD"] = 1m;
 
-            cache.Set(cacheKey, result, CacheDuration);
-            logger.LogInformation("Exchange rates fetched from API for base {Base}", baseCurrency);
+            cache.Set(UsdRatesCacheKey, rates, CacheDuration);
+            logger.LogInformation("Exchange rates fetched from Frankfurter (USD base)");
 
-            return result;
+            return rates;
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to fetch exchange rates for {Base}. Using fallback rates.", baseCurrency);
-            return targetCurrencies.ToDictionary(c => c, _ => 1m);
+            logger.LogWarning(ex, "Failed to fetch exchange rates. Using 1:1 fallback.");
+            return new Dictionary<string, decimal> { ["USD"] = 1m };
         }
     }
 
-    private record ExchangeRateResponse(string Base, Dictionary<string, decimal> Rates);
+    private record FrankfurterResponse(string Base, Dictionary<string, decimal> Rates);
 }

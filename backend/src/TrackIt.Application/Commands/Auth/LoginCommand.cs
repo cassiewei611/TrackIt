@@ -1,4 +1,3 @@
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using TrackIt.Application.Common.Exceptions;
@@ -22,8 +21,7 @@ public class LoginCommandValidator : AbstractValidator<LoginCommand>
 public class LoginCommandHandler(
     IUserRepository userRepository,
     IPasswordService passwordService,
-    IJwtService jwtService,
-    IMapper mapper
+    IJwtService jwtService
 ) : IRequestHandler<LoginCommand, AuthResponseDto>
 {
     public async Task<AuthResponseDto> Handle(LoginCommand request, CancellationToken ct)
@@ -37,6 +35,7 @@ public class LoginCommandHandler(
         var accessToken = jwtService.GenerateAccessToken(user.Id, user.Email.Value, ["User"]);
         var refreshToken = jwtService.GenerateRefreshToken();
 
-        return new AuthResponseDto(accessToken, refreshToken, mapper.Map<UserProfileDto>(user));
+        return new AuthResponseDto(accessToken, refreshToken,
+            new UserProfileDto(user.Id, user.Email.Value, user.FullName, user.PreferredCurrency, user.MonthlyBudgetLimit));
     }
 }

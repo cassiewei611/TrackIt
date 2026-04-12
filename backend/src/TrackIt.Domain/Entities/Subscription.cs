@@ -8,7 +8,6 @@ namespace TrackIt.Domain.Entities;
 public class Subscription : BaseEntity
 {
     public Guid UserId { get; private set; }
-    public Guid? TeamId { get; private set; }
     public SubscriptionName Name { get; private set; } = default!;
     public string? LogoUrl { get; private set; }
     public Money Amount { get; private set; } = default!;
@@ -17,10 +16,10 @@ public class Subscription : BaseEntity
     public SubscriptionCategory Category { get; private set; }
     public bool IsActive { get; private set; } = true;
     public string? Notes { get; private set; }
-    public string? WebsiteUrl { get; private set; }
+    public int SplitCount { get; private set; } = 1;
+    public string? Group { get; private set; }
 
     public User User { get; private set; } = default!;
-    public Team? Team { get; private set; }
 
     private Subscription() { }
 
@@ -34,19 +33,21 @@ public class Subscription : BaseEntity
         SubscriptionCategory category,
         string? logoUrl = null,
         string? notes = null,
-        Guid? teamId = null)
+        int splitCount = 1,
+        string? group = null)
     {
         var subscription = new Subscription
         {
             UserId = userId,
-            TeamId = teamId,
             Name = SubscriptionName.Create(name),
             Amount = Money.Create(amount, currencyCode),
             BillingCycle = billingCycle,
             NextBillingDate = nextBillingDate,
             Category = category,
             LogoUrl = logoUrl,
-            Notes = notes
+            Notes = notes,
+            SplitCount = splitCount < 1 ? 1 : splitCount,
+            Group = group
         };
 
         subscription.AddDomainEvent(new SubscriptionCreatedEvent(subscription.Id, userId, amount, currencyCode));
@@ -60,7 +61,9 @@ public class Subscription : BaseEntity
         BillingCycle billingCycle,
         DateTime nextBillingDate,
         SubscriptionCategory category,
-        string? notes = null)
+        string? notes = null,
+        int splitCount = 1,
+        string? group = null)
     {
         Name = SubscriptionName.Create(name);
         Amount = Money.Create(amount, currencyCode);
@@ -68,30 +71,21 @@ public class Subscription : BaseEntity
         NextBillingDate = nextBillingDate;
         Category = category;
         Notes = notes;
-        SetUpdated();
-    }
-
-    public void Deactivate()
-    {
-        IsActive = false;
-        AddDomainEvent(new SubscriptionDeactivatedEvent(Id, UserId));
-        SetUpdated();
-    }
-
-    public void Reactivate()
-    {
-        IsActive = true;
+        SplitCount = splitCount < 1 ? 1 : splitCount;
+        Group = group;
         SetUpdated();
     }
 
     public decimal MonthlyEquivalent => BillingCycle switch
     {
-        BillingCycle.Weekly => Amount.Value * 52 / 12,
-        BillingCycle.Monthly => Amount.Value,
+        BillingCycle.Weekly    => Amount.Value * 52 / 12,
+        BillingCycle.Monthly   => Amount.Value,
         BillingCycle.Quarterly => Amount.Value / 3,
-        BillingCycle.Yearly => Amount.Value / 12,
-        _ => Amount.Value
+        BillingCycle.Yearly    => Amount.Value / 12,
+        _                      => Amount.Value
     };
+
+    public decimal EffectiveMonthlyAmount => Math.Round(MonthlyEquivalent / SplitCount, 2);
 
     public bool IsRenewingSoon(int daysThreshold = 3) =>
         NextBillingDate.Date <= DateTime.UtcNow.Date.AddDays(daysThreshold);

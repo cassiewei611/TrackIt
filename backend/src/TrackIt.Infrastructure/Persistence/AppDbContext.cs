@@ -9,8 +9,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Subscription> Subscriptions => Set<Subscription>();
-    public DbSet<Team> Teams => Set<Team>();
-    public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
     public DbSet<ExchangeRateCache> ExchangeRates => Set<ExchangeRateCache>();
 
     protected override void OnModelCreating(ModelBuilder builder)

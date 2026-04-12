@@ -15,6 +15,11 @@ export interface Subscription {
   notes?: string;
   monthlyEquivalent: number;
   createdAt: string;
+  splitCount: number;
+  group?: string;
+  effectiveMonthlyAmount: number;
+  convertedMonthlyEquivalent?: number;
+  targetCurrency?: string;
 }
 
 export interface DashboardSummary {
@@ -73,7 +78,8 @@ export interface CreateSubscriptionRequest {
   category: SubscriptionCategory;
   logoUrl?: string;
   notes?: string;
-  teamId?: string;
+  splitCount?: number;
+  group?: string;
 }
 
 export interface LoginRequest {

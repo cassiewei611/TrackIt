@@ -11,6 +11,18 @@ interface DashboardPageProps {
   currency: string;
 }
 
+function fmt(amount: number, currency: string) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 2 }).format(amount);
+}
+
+function fmtShort(amount: number, currency: string) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 0 }).format(amount);
+}
+
+function currencySymbol(currency: string) {
+  return (0).toLocaleString('en-US', { style: 'currency', currency, minimumFractionDigits: 0 }).replace(/[\d.,\s]/g, '').trim();
+}
+
 export function DashboardPage({ currency }: DashboardPageProps) {
   const { data: summary, isLoading } = useQuery({
     queryKey: ['dashboard', 'summary', currency],
@@ -18,8 +30,8 @@ export function DashboardPage({ currency }: DashboardPageProps) {
   });
 
   const { data: timeline } = useQuery({
-    queryKey: ['dashboard', 'timeline'],
-    queryFn: () => dashboardApi.getTimeline(6),
+    queryKey: ['dashboard', 'timeline', currency],
+    queryFn: () => dashboardApi.getTimeline(6, currency),
   });
 
   if (isLoading) {
@@ -29,6 +41,8 @@ export function DashboardPage({ currency }: DashboardPageProps) {
       </div>
     );
   }
+
+  const sym = currencySymbol(currency);
 
   const categoryData = (summary?.byCategory ?? []).map(c => ({
     name: c.category,
@@ -53,20 +67,20 @@ export function DashboardPage({ currency }: DashboardPageProps) {
       <div style={{ display: 'flex', gap: 16, marginBottom: 24 }}>
         <StatCard
           label="Monthly Total"
-          value={`$${(summary?.monthlyTotal ?? 0).toFixed(2)}`}
+          value={fmt(summary?.monthlyTotal ?? 0, currency)}
           sub={`${currency} · ${summary?.totalActiveSubscriptions ?? 0} active`}
           accent="linear-gradient(90deg,#a78bfa,#818cf8)"
         />
         <StatCard
           label="Yearly Projection"
-          value={`$${(summary?.yearlyTotal ?? 0).toFixed(0)}`}
+          value={fmtShort(summary?.yearlyTotal ?? 0, currency)}
           sub="at current rate"
           accent="linear-gradient(90deg,#60a5fa,#34d399)"
         />
         <StatCard
           label="Budget Used"
           value={summary?.budgetUsedPercent != null ? `${summary.budgetUsedPercent.toFixed(0)}%` : 'No limit'}
-          sub={summary?.budgetLimit ? `$${summary.budgetLimit} limit` : 'Set a budget limit'}
+          sub={summary?.budgetLimit ? `${fmt(summary.budgetLimit, currency)} limit` : 'Set a budget limit'}
           accent="linear-gradient(90deg,#f472b6,#fb923c)"
         />
         <StatCard
@@ -83,10 +97,10 @@ export function DashboardPage({ currency }: DashboardPageProps) {
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={timelineData}>
               <XAxis dataKey="month" stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v}`} width={45} />
+              <YAxis stroke="rgba(255,255,255,0.2)" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `${sym}${v}`} width={45} />
               <Tooltip
                 contentStyle={{ background: '#1a1a24', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, fontFamily: "'IBM Plex Mono', monospace", fontSize: 12 }}
-                formatter={(v: number) => [`$${v}`, 'Spent']}
+                formatter={(v: number) => [fmt(v, currency), 'Spent']}
               />
               <Line type="monotone" dataKey="amount" stroke="#a78bfa" strokeWidth={2.5} dot={{ fill: '#a78bfa', r: 4, strokeWidth: 0 }} activeDot={{ r: 6, fill: '#fff' }} />
             </LineChart>
@@ -110,7 +124,7 @@ export function DashboardPage({ currency }: DashboardPageProps) {
                     <div style={{ width: 8, height: 8, borderRadius: '50%', background: cat.color }} />
                     <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>{cat.name}</span>
                   </div>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>${cat.value.toFixed(2)}</span>
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>{fmt(cat.value, currency)}</span>
                 </div>
               ))}
             </div>
@@ -139,7 +153,7 @@ export function DashboardPage({ currency }: DashboardPageProps) {
                       <span style={{ color: urgentColor, fontSize: 11, fontWeight: 600 }}>
                         {days === 0 ? 'TODAY' : days === 1 ? 'TOMORROW' : `${days} DAYS`}
                       </span>
-                      <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>${s.amount}</span>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{fmt(s.amount, s.currencyCode)}</span>
                     </div>
                   </div>
                 );

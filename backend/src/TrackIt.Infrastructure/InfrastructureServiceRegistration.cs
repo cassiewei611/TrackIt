@@ -24,16 +24,13 @@ public static class InfrastructureServiceRegistration
 
         services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ITeamRepository, TeamRepository>();
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 
         services.AddMemoryCache();
 
-        services.Configure<ExchangeRateSettings>(configuration.GetSection("ExchangeRates"));
         services.AddHttpClient<IExchangeRateService, ExchangeRateService>(client =>
         {
-            var baseUrl = configuration["ExchangeRates:BaseUrl"] ?? "https://openexchangerates.org/api/";
-            client.BaseAddress = new Uri(baseUrl);
+            client.BaseAddress = new Uri("https://api.frankfurter.app/");
             client.Timeout = TimeSpan.FromSeconds(10);
         });
 

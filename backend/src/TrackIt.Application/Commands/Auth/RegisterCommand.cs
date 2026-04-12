@@ -1,4 +1,3 @@
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using TrackIt.Application.Common.Exceptions;
@@ -35,8 +34,7 @@ public class RegisterCommandHandler(
     IUserRepository userRepository,
     IPasswordService passwordService,
     IJwtService jwtService,
-    IUnitOfWork unitOfWork,
-    IMapper mapper
+    IUnitOfWork unitOfWork
 ) : IRequestHandler<RegisterCommand, AuthResponseDto>
 {
     public async Task<AuthResponseDto> Handle(RegisterCommand request, CancellationToken ct)
@@ -53,6 +51,7 @@ public class RegisterCommandHandler(
         var accessToken = jwtService.GenerateAccessToken(user.Id, user.Email.Value, ["User"]);
         var refreshToken = jwtService.GenerateRefreshToken();
 
-        return new AuthResponseDto(accessToken, refreshToken, mapper.Map<UserProfileDto>(user));
+        return new AuthResponseDto(accessToken, refreshToken,
+            new UserProfileDto(user.Id, user.Email.Value, user.FullName, user.PreferredCurrency, user.MonthlyBudgetLimit));
     }
 }

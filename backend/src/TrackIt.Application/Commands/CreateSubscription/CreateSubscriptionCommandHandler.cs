@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using TrackIt.Application.Common.Exceptions;
@@ -15,7 +14,6 @@ public class CreateSubscriptionCommandHandler(
     IUserRepository userRepository,
     IExchangeRateService exchangeRateService,
     IUnitOfWork unitOfWork,
-    IMapper mapper,
     ILogger<CreateSubscriptionCommandHandler> logger
 ) : IRequestHandler<CreateSubscriptionCommand, SubscriptionDto>
 {
@@ -36,7 +34,8 @@ public class CreateSubscriptionCommandHandler(
             category: request.Category,
             logoUrl: request.LogoUrl,
             notes: request.Notes,
-            teamId: request.TeamId
+            splitCount: request.SplitCount,
+            group: request.Group
         );
 
         await subscriptionRepository.AddAsync(subscription, ct);
@@ -44,7 +43,14 @@ public class CreateSubscriptionCommandHandler(
 
         logger.LogInformation("Subscription {Name} created for user {UserId}", request.Name, request.UserId);
 
-        return mapper.Map<SubscriptionDto>(subscription);
+        return new SubscriptionDto(
+            subscription.Id, subscription.Name.Value, subscription.LogoUrl,
+            subscription.Amount.Value, subscription.Amount.CurrencyCode,
+            subscription.BillingCycle.ToString(), subscription.NextBillingDate,
+            subscription.Category.ToString(), subscription.IsActive,
+            subscription.Notes, subscription.MonthlyEquivalent, subscription.CreatedAt,
+            subscription.SplitCount, subscription.Group, subscription.EffectiveMonthlyAmount
+        );
     }
 
     private async Task CheckBudgetThresholdAsync(User user, CreateSubscriptionCommand request, CancellationToken ct)
@@ -52,7 +58,7 @@ public class CreateSubscriptionCommandHandler(
         if (user.MonthlyBudgetLimit is null) return;
 
         var existing = await subscriptionRepository.GetByUserIdAsync(user.Id, ct: ct);
-        var currentMonthlyTotal = existing.Sum(s => s.MonthlyEquivalent);
+        var currentMonthlyTotal = existing.Sum(s => s.EffectiveMonthlyAmount);
 
         var newMonthlyAmount = request.BillingCycle switch
         {
@@ -60,7 +66,7 @@ public class CreateSubscriptionCommandHandler(
             BillingCycle.Weekly => request.Amount * 52 / 12,
             BillingCycle.Quarterly => request.Amount / 3,
             _ => request.Amount
-        };
+        } / (request.SplitCount < 1 ? 1 : request.SplitCount);
 
         if (currentMonthlyTotal + newMonthlyAmount > user.MonthlyBudgetLimit)
             logger.LogWarning("User {UserId} budget threshold will be exceeded", user.Id);

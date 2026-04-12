@@ -13,3 +13,4 @@ C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\ne
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\refint\TrackIt.Application.dll
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.pdb
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\ref\TrackIt.Application.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Application\obj\Debug\net8.0\TrackIt.Application.sourcelink.json

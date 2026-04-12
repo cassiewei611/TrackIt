@@ -17,11 +17,6 @@ public class SubscriptionRepository(AppDbContext context) : ISubscriptionReposit
             .OrderBy(s => s.NextBillingDate)
             .ToListAsync(ct);
 
-    public async Task<IEnumerable<Subscription>> GetByTeamIdAsync(Guid teamId, CancellationToken ct = default)
-        => await context.Subscriptions
-            .Where(s => s.TeamId == teamId && s.IsActive)
-            .ToListAsync(ct);
-
     public async Task<IEnumerable<Subscription>> GetRenewingSoonAsync(int daysAhead = 3, CancellationToken ct = default)
     {
         var threshold = DateTime.UtcNow.AddDays(daysAhead);

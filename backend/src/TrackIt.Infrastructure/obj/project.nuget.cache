@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "T5fqARlhwno=",
+  "dgSpecHash": "ZrKICbJT1DQ=",
   "success": true,
   "projectFilePath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\cassie wei\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
+    "C:\\Users\\cassie wei\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\cassie wei\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\cassie wei\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\cassie wei\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
@@ -103,8 +103,10 @@
     {
       "code": "NU1603",
       "level": "Warning",
+      "message": "TrackIt.Infrastructure depends on Microsoft.IdentityModel.Tokens (>= 8.3.2) but Microsoft.IdentityModel.Tokens 8.3.2 was not found. Microsoft.IdentityModel.Tokens 8.4.0 was resolved instead.",
+      "projectPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj",
       "warningLevel": 1,
-      "message": "TrackIt.Infrastructure 依赖于 Microsoft.IdentityModel.Tokens (>= 8.3.2)，但找不到 Microsoft.IdentityModel.Tokens 8.3.2。 已解决 Microsoft.IdentityModel.Tokens 8.4.0 的近似最佳匹配。 ",
+      "filePath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj",
       "libraryId": "Microsoft.IdentityModel.Tokens",
       "targetGraphs": [
         "net8.0"
@@ -113,8 +115,10 @@
     {
       "code": "NU1603",
       "level": "Warning",
+      "message": "TrackIt.Infrastructure depends on System.IdentityModel.Tokens.Jwt (>= 8.3.2) but System.IdentityModel.Tokens.Jwt 8.3.2 was not found. System.IdentityModel.Tokens.Jwt 8.4.0 was resolved instead.",
+      "projectPath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj",
       "warningLevel": 1,
-      "message": "TrackIt.Infrastructure 依赖于 System.IdentityModel.Tokens.Jwt (>= 8.3.2)，但找不到 System.IdentityModel.Tokens.Jwt 8.3.2。 已解决 System.IdentityModel.Tokens.Jwt 8.4.0 的近似最佳匹配。 ",
+      "filePath": "C:\\Users\\cassie wei\\Desktop\\TrackIT\\backend\\src\\TrackIt.Infrastructure\\TrackIt.Infrastructure.csproj",
       "libraryId": "System.IdentityModel.Tokens.Jwt",
       "targetGraphs": [
         "net8.0"

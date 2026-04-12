@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Serilog;
 using TrackIt.API.Extensions;
 using TrackIt.API.Middleware;
@@ -6,7 +7,8 @@ using TrackIt.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructure(builder.Configuration);

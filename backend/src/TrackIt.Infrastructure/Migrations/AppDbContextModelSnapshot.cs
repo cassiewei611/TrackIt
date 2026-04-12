@@ -41,6 +41,10 @@ namespace TrackIt.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Group")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -55,8 +59,10 @@ namespace TrackIt.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid?>("TeamId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("SplitCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -64,96 +70,15 @@ namespace TrackIt.Infrastructure.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("WebsiteUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NextBillingDate");
-
-                    b.HasIndex("TeamId");
 
                     b.HasIndex("UserId");
 
                     b.HasIndex("UserId", "IsActive");
 
                     b.ToTable("Subscriptions");
-                });
-
-            modelBuilder.Entity("TrackIt.Domain.Entities.Team", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<decimal?>("MonthlyBudgetLimit")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PreferredCurrency")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)")
-                        .HasDefaultValue("USD");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("TrackIt.Domain.Entities.TeamMember", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("JoinedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<Guid>("TeamId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("TeamId", "UserId")
-                        .IsUnique();
-
-                    b.ToTable("TeamMembers");
                 });
 
             modelBuilder.Entity("TrackIt.Domain.Entities.User", b =>
@@ -213,7 +138,7 @@ namespace TrackIt.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Rate")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<string>("TargetCurrency")
                         .IsRequired()
@@ -226,11 +151,6 @@ namespace TrackIt.Infrastructure.Migrations
 
             modelBuilder.Entity("TrackIt.Domain.Entities.Subscription", b =>
                 {
-                    b.HasOne("TrackIt.Domain.Entities.Team", "Team")
-                        .WithMany("Subscriptions")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("TrackIt.Domain.Entities.User", "User")
                         .WithMany("Subscriptions")
                         .HasForeignKey("UserId")
@@ -285,27 +205,6 @@ namespace TrackIt.Infrastructure.Migrations
                     b.Navigation("Name")
                         .IsRequired();
 
-                    b.Navigation("Team");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TrackIt.Domain.Entities.TeamMember", b =>
-                {
-                    b.HasOne("TrackIt.Domain.Entities.Team", "Team")
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TrackIt.Domain.Entities.User", "User")
-                        .WithMany("TeamMemberships")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Team");
-
                     b.Navigation("User");
                 });
 
@@ -337,18 +236,9 @@ namespace TrackIt.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TrackIt.Domain.Entities.Team", b =>
-                {
-                    b.Navigation("Members");
-
-                    b.Navigation("Subscriptions");
-                });
-
             modelBuilder.Entity("TrackIt.Domain.Entities.User", b =>
                 {
                     b.Navigation("Subscriptions");
-
-                    b.Navigation("TeamMemberships");
                 });
 #pragma warning restore 612, 618
         }

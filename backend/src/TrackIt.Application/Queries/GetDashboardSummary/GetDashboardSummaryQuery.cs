@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediatR;
 using TrackIt.Application.Common.Exceptions;
 using TrackIt.Application.DTOs;
@@ -13,8 +12,7 @@ public record GetDashboardSummaryQuery(Guid UserId, string TargetCurrency = "USD
 public class GetDashboardSummaryQueryHandler(
     ISubscriptionRepository subscriptionRepo,
     IUserRepository userRepo,
-    IExchangeRateService exchangeRateService,
-    IMapper mapper
+    IExchangeRateService exchangeRateService
 ) : IRequestHandler<GetDashboardSummaryQuery, DashboardSummaryDto>
 {
     public async Task<DashboardSummaryDto> Handle(GetDashboardSummaryQuery request, CancellationToken ct)
@@ -30,7 +28,7 @@ public class GetDashboardSummaryQueryHandler(
         var monthlyTotal = subscriptions.Sum(s =>
         {
             var rate = rates.GetValueOrDefault(s.Amount.CurrencyCode, 1m);
-            return s.MonthlyEquivalent * rate;
+            return s.EffectiveMonthlyAmount * rate;
         });
 
         var yearlyTotal = monthlyTotal * 12;
@@ -39,7 +37,7 @@ public class GetDashboardSummaryQueryHandler(
             .GroupBy(s => s.Category)
             .Select(g => new CategoryBreakdownDto(
                 Category: g.Key.ToString(),
-                MonthlyAmount: Math.Round(g.Sum(s => s.MonthlyEquivalent * rates.GetValueOrDefault(s.Amount.CurrencyCode, 1m)), 2),
+                MonthlyAmount: Math.Round(g.Sum(s => s.EffectiveMonthlyAmount * rates.GetValueOrDefault(s.Amount.CurrencyCode, 1m)), 2),
                 Count: g.Count()
             ))
             .OrderByDescending(x => x.MonthlyAmount)
@@ -49,7 +47,12 @@ public class GetDashboardSummaryQueryHandler(
             .Where(s => s.IsRenewingSoon(7))
             .OrderBy(s => s.NextBillingDate)
             .Take(5)
-            .Select(mapper.Map<SubscriptionDto>)
+            .Select(s => new SubscriptionDto(
+                s.Id, s.Name.Value, s.LogoUrl, s.Amount.Value, s.Amount.CurrencyCode,
+                s.BillingCycle.ToString(), s.NextBillingDate, s.Category.ToString(),
+                s.IsActive, s.Notes, s.MonthlyEquivalent, s.CreatedAt,
+                s.SplitCount, s.Group, s.EffectiveMonthlyAmount
+            ))
             .ToList();
 
         return new DashboardSummaryDto(

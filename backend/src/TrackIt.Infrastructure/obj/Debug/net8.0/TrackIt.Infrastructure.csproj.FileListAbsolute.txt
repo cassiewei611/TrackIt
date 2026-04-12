@@ -17,3 +17,4 @@ C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Infrastructure\obj\Debug
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Infrastructure\obj\Debug\net8.0\TrackIt.Infrastructure.pdb
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Infrastructure\obj\Debug\net8.0\TrackIt.Infrastructure.genruntimeconfig.cache
 C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Infrastructure\obj\Debug\net8.0\ref\TrackIt.Infrastructure.dll
+C:\Users\cassie wei\Desktop\TrackIT\backend\src\TrackIt.Infrastructure\obj\Debug\net8.0\TrackIt.Infrastructure.sourcelink.json
